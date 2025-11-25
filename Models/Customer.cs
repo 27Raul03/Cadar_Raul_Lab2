@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Cadar_Raul_Lab2.Models
+{
+    public class Customer
+    {
+        public int CustomerID { get; set; }
+        public string Name { get; set; }
+        public string Adress { get; set; }
+        public string BirthDate { get; set; }
+        public ICollection<Order>? Orders { get; set; }
+    }
+}
