@@ -48,7 +48,7 @@ namespace Cadar_Raul_Lab2.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "ID");
+            ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "Name");
             return View();
         }
 
@@ -82,7 +82,7 @@ namespace Cadar_Raul_Lab2.Controllers
             {
                 return NotFound();
             }
-            ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "ID", book.GenreID);
+            ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "Name", book.GenreID);
             return View(book);
         }
 

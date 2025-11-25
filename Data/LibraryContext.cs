@@ -15,5 +15,8 @@ namespace Cadar_Raul_Lab2.Data
         }
 
         public DbSet<Cadar_Raul_Lab2.Models.Book> Book { get; set; } = default!;
+        public DbSet<Cadar_Raul_Lab2.Models.Customer> Customer { get; set; } = default!;
+        public DbSet<Cadar_Raul_Lab2.Models.Genre> Genre { get; set; } = default!;
     }
 }
+
