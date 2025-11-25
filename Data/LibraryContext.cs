@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Cadar_Raul_Lab2.Models;
+
+namespace Cadar_Raul_Lab2.Data
+{
+    public class LibraryContext : DbContext
+    {
+        public LibraryContext (DbContextOptions<LibraryContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<Cadar_Raul_Lab2.Models.Book> Book { get; set; } = default!;
+    }
+}
