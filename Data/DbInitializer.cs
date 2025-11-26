@@ -20,19 +20,25 @@ namespace Cadar_Raul_Lab2Context.Data
                 new Book
                 {
                     Title = "Baltagul",
-                    Author = "Mihail Sadoveanu",Price=Decimal.Parse("22")},
+                    Price=Decimal.Parse("22")},
                
                 new Book
                 {
                     Title = "Enigma Otiliei",
-                    Author = "George Calinescu",Price=Decimal.Parse("18")},
+                    Price=Decimal.Parse("18")},
                
                 new Book
                 {
                     Title = "Maytrei",
-                    Author = "Mircea Eliade",Price=Decimal.Parse("27")}
+                    Price=Decimal.Parse("27")}
                
                 );
+
+                context.Author.AddRange(
+               new Author { FirstName = "Mihail", LastName = "Sadoveanu" },
+               new Author { FirstName = " George", LastName = "Calinescu" },
+               new Author { FirstName = "Mircea", LastName = "Eliade" }
+               );
 
                 context.Genre.AddRange(
                new Genre { Name = "Roman" },

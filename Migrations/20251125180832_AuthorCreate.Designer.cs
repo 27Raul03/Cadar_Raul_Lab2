@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cadar_Raul_Lab2.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20251125165847_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20251125180832_AuthorCreate")]
+    partial class AuthorCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,32 @@ namespace Cadar_Raul_Lab2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Cadar_Raul_Lab2.Models.Author", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("AuthorID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.ToTable("Author");
+                });
+
             modelBuilder.Entity("Cadar_Raul_Lab2.Models.Book", b =>
                 {
                     b.Property<int>("ID")
@@ -33,9 +59,8 @@ namespace Cadar_Raul_Lab2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AuthorID")
+                        .HasColumnType("int");
 
                     b.Property<int?>("GenreID")
                         .HasColumnType("int");
@@ -48,6 +73,8 @@ namespace Cadar_Raul_Lab2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
 
                     b.HasIndex("GenreID");
 
@@ -118,11 +145,24 @@ namespace Cadar_Raul_Lab2.Migrations
                     b.ToTable("Order");
                 });
 
+            modelBuilder.Entity("Cadar_Raul_Lab2.Models.Author", b =>
+                {
+                    b.HasOne("Cadar_Raul_Lab2.Models.Author", null)
+                        .WithMany("Authors")
+                        .HasForeignKey("AuthorID");
+                });
+
             modelBuilder.Entity("Cadar_Raul_Lab2.Models.Book", b =>
                 {
+                    b.HasOne("Cadar_Raul_Lab2.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorID");
+
                     b.HasOne("Cadar_Raul_Lab2.Models.Genre", "Genre")
                         .WithMany()
                         .HasForeignKey("GenreID");
+
+                    b.Navigation("Author");
 
                     b.Navigation("Genre");
                 });
@@ -140,6 +180,11 @@ namespace Cadar_Raul_Lab2.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Cadar_Raul_Lab2.Models.Author", b =>
+                {
+                    b.Navigation("Authors");
                 });
 
             modelBuilder.Entity("Cadar_Raul_Lab2.Models.Book", b =>
