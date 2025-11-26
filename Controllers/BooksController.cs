@@ -22,7 +22,7 @@ namespace Cadar_Raul_Lab2.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var libraryContext = _context.Book.Include(b => b.Genre);
+            var libraryContext = _context.Book.Include(b => b.Genre).Include(b => b.Author);
             return View(await libraryContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace Cadar_Raul_Lab2.Controllers
             }
 
             var book = await _context.Book
-                .Include(b => b.Genre)
+                .Include(b => b.Genre).Include(b => b.Author)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (book == null)
             {
@@ -48,6 +48,7 @@ namespace Cadar_Raul_Lab2.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
+            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "LastName");
             ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "Name");
             return View();
         }
@@ -57,7 +58,7 @@ namespace Cadar_Raul_Lab2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Author,Price,GenreID")] Book book)
+        public async Task<IActionResult> Create([Bind("ID,Title,AuthorID,Price,GenreID")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +66,7 @@ namespace Cadar_Raul_Lab2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "ID", book.AuthorID);
             ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "ID", book.GenreID);
             return View(book);
         }
@@ -82,6 +84,7 @@ namespace Cadar_Raul_Lab2.Controllers
             {
                 return NotFound();
             }
+            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "LastName", book.AuthorID);
             ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "Name", book.GenreID);
             return View(book);
         }
@@ -91,7 +94,7 @@ namespace Cadar_Raul_Lab2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Author,Price,GenreID")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,AuthorID,Price,GenreID")] Book book)
         {
             if (id != book.ID)
             {
@@ -118,6 +121,7 @@ namespace Cadar_Raul_Lab2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "ID", book.AuthorID);
             ViewData["GenreID"] = new SelectList(_context.Set<Genre>(), "ID", "ID", book.GenreID);
             return View(book);
         }
@@ -131,7 +135,7 @@ namespace Cadar_Raul_Lab2.Controllers
             }
 
             var book = await _context.Book
-                .Include(b => b.Genre)
+                .Include(b => b.Genre).Include(b => b.Author)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (book == null)
             {
