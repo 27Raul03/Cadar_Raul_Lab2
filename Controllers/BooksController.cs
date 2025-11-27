@@ -24,7 +24,7 @@ namespace Cadar_Raul_Lab2.Controllers
         {
             ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["PriceSortParm"] = sortOrder == "Price" ? "price_desc" : "Price";
-            ViewData["AuthorSortParm"] = String.IsNullOrEmpty(sortOrder) ? "author_desc" : "";
+            ViewData["AuthorSortParm"] = String.IsNullOrEmpty(sortOrder) ? "author_desc" : "author_cresc";
             ViewData["CurrentFilter"] = searchString;
             var books = from b in _context.Book
                         join a in _context.Author on b.AuthorID equals a.ID
@@ -50,6 +50,9 @@ namespace Cadar_Raul_Lab2.Controllers
                     break;
                 case "price_desc":
                     books = books.OrderByDescending(b => b.Price);
+                    break;
+                case "author_cresc":
+                    books = books.OrderBy(a => a.LastName);
                     break;
                 case "author_desc":
                     books = books.OrderByDescending(a => a.LastName);
