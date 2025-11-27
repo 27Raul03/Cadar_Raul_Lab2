@@ -6,6 +6,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public ICollection<Author>? Authors { get; set; }
+        public ICollection<Book>? Books { get; set; }
 
 
     }

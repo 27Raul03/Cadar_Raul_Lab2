@@ -34,6 +34,7 @@ namespace Cadar_Raul_Lab2.Controllers
             }
 
             var author = await _context.Author
+                .Include(a => a.Books).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (author == null)
             {
